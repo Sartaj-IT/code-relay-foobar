@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { Plus, Layout as LayoutIcon } from 'lucide-react';
-import TaskList from './modules/TaskComponents/TaskLits';
+import TaskList from "./modules/TaskComponents/TaskList.jsx";
 import Card from './modules/UI/Card';
 import Input from './modules/UI/Input';
 import Button from './modules/UI/Button';
@@ -20,10 +20,14 @@ const API_BASE = import.meta.env.API_URL || 'http://localhost:5000';
 
 function ProtectedRoute({ children }) {
     const { user, loading } = useAuth();
-    if (loading) return <div className="page-loading"><div className="spinner"></div></div>;
-    if (!user) return null;
+
+    if (loading) return <div>Loading...</div>;
+
+    if (!user) return <Navigate to="/login" replace />;
+
     return children;
 }
+
 
 function LegacyTaskApp() {
     const [quantumTasks, setQuantumTasks] = useState();
@@ -112,7 +116,7 @@ function LegacyTaskApp() {
 function App() {
     return (
         <AuthProvider>
-            <BrowserRouter>
+            
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
@@ -126,7 +130,7 @@ function App() {
 
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
-            </BrowserRouter>
+            
         </AuthProvider>
     );
 }
