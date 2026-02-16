@@ -14,6 +14,8 @@ export default function Register() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
+        console.log("REGISTER CLICKED");
+
         e.preventDefault();
         setError('');
 

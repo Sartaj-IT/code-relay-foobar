@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
+    [data-theme="dark"] {
+    --bg: 222 47% 8%;
+    --bg-secondary: 222 47% 10%;
+    --card: 222 47% 12%;
+    --card-hover: 222 47% 14%;
+
+    --text: 210 40% 98%;
+    --text-muted: 215 20% 65%;
+
+    --border: 222 47% 20%;
+
+    --glass: rgba(0, 0, 0, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-hover: rgba(255, 255, 255, 0.06);
+}
+
     /* Light Mode Palette */
     --primary: 220 100% 50%;
     --primary-hover: 220 100% 45%;
@@ -40,10 +56,15 @@
 
 body {
     min-height: 100vh;
+    background-color: hsl(var(--bg));
+    color: hsl(var(--text));
+    transition: background 0.3s ease, color 0.3s ease;
+
     background-image:
         radial-gradient(circle at 0% 0%, hsla(220, 100%, 85%, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 100% 100%, hsla(280, 100%, 85%, 0.3) 0%, transparent 50%);
 }
+
 
 #root {
     width: 100%;

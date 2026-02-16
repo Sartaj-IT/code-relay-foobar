@@ -11,19 +11,22 @@ function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        setError('');
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();   // ✅ VERY IMPORTANT
 
-        try {
-            await login(email, password);
-            navigate('/');
-        } catch (err) {
-            setError(err.data?.error || 'Login failed');
-        } finally {
-            setLoading(false);
-        }
-    };
+    setError('');
+    setLoading(true);
+
+    try {
+        await login(email, password);
+        navigate('/dashboard');
+    } catch (err) {
+        setError(err.response?.data?.error || 'Login failed');
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <div className="auth-page">

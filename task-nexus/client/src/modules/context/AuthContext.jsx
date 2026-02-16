@@ -29,19 +29,20 @@ export function AuthProvider({ children }) {
 
     const login = async (email, password) => {
         const response = await axios.post(`${API_BASE}/auth/login`, { email, password });
-        localStorage.setItem('nexus_token', response.data.token);
+        localStorage.setItem('nexus_token',response.data.token);
         setToken(response.data.token);
         setUser(response.data.user);
         return response.data;
     };
 
     const register = async (username, email, password) => {
-        const response = await axios.post(`${API_BASE}/auth/register`, { username, email, password });
-        localStorage.setItem('nexus_token', response.data.token);
-        setToken(response.data.token);
-        setUser(response.data.user);
-        return response.data;
-    };
+    const response = await axios.post(`${API_BASE}/auth/register`, { username, email, password });
+    localStorage.setItem('nexus_token', response.data.token);
+    setToken(response.data.token);
+    setUser(response.data.user);
+    return response.data;
+};
+
 
     const logout = () => {
         localStorage.removeItem('nexus_token');

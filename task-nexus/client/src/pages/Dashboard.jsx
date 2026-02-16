@@ -1,19 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart3, CheckCircle2, Clock, AlertTriangle, FolderKanban, Building2 } from 'lucide-react';
+import { useNotifications } from "../modules/context/NotificationContext";
 
 const API_BASE = import.meta.env.API_URL || 'http://localhost:5000/api';
 
 export default function Dashboard() {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { addNotification } = useNotifications();
 
     useEffect(() => {
         const token = localStorage.getItem('nexus_token');
         axios.get(`${API_BASE}/analytics/dashboard`, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(response => setStats(response.data))
+            .then(response => {
+    setStats(response.data);
+
+    const data = response.data;
+
+    // 🔔 Overdue tasks
+    if (data.overdueTasks > 0) {
+        addNotification({
+            message: `${data.overdueTasks} task(s) are overdue!`
+        });
+    }
+
+    // 🔔 Deadline warning (if backend provides it later)
+    if (data.dueSoonTasks > 0) {
+        addNotification({
+            message: `${data.dueSoonTasks} task(s) due within 24 hours`
+        });
+    }
+
+    // 🔔 New assignments placeholder
+    if (data.newAssignments > 0) {
+        addNotification({
+            message: "You have new task assignments"
+        });
+    }
+})
+
             .catch(console.error)
             .finally(() => setLoading(false));
     }, []);
